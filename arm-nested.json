@@ -12,12 +12,23 @@
             "name": "nestedTempl001",
             "properties": {
                 "expressionEvaluationOptions": {
-                    "scope": "outer"
+                    "scope": "inner"
                 },
                 "mode": "Incremental",
+                "parameters": {
+                    "parentVariabel": {
+                        "value": "[variables('eksempVariabel')]"
+                    }
+                },
                 "template": {
                     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
                     "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "parentVariabel": {
+                            "type": "string"
+                        }
+
+                    },
                     "variables": {
                         "eksempVariabel": "child Variabel"
                     },
@@ -28,6 +39,10 @@
                         "result": {
                             "type": "string",
                             "value": "[variables('eksempVariabel')]"
+                        },
+                        "resultParent": {
+                            "type": "string",
+                            "value": "[parameters('parentVariabel')]"
                         }
                     }
                 }
@@ -38,6 +53,10 @@
         "result": {
             "type": "string",
             "value": "[reference('nestedTempl001').outputs.result.value]"
+        },
+        "resultParent": {
+            "type": "string",
+            "value": "[reference('nestedTempl001').outputs.resultParent.value]"
         }        
     }
 }
