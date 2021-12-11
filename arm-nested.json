@@ -1,0 +1,43 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {
+        "eksempVariabel": "parent Variabel"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "name": "nestedTempl001",
+            "properties": {
+                "expressionEvaluationOptions": {
+                    "scope": "outer"
+                },
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "variables": {
+                        "eksempVariabel": "child Variabel"
+                    },
+                    "resources": [
+                        
+                    ],
+                    "outputs": {
+                        "result": {
+                            "type": "string",
+                            "value": "[variables('eksempVariabel')]"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "result": {
+            "type": "string",
+            "value": "[reference('nestedTempl001').outputs.result.value]"
+        }        
+    }
+}
